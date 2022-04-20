@@ -1,4 +1,4 @@
-# spring_pythonbot
+# spring2022_pythonbot
  MIPT spring 2022 programming practice 
  
 Союз юмористов делает бота травящего анекдоты, собранные в интернете.
