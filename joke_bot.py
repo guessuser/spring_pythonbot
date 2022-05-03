@@ -35,10 +35,17 @@ def blacklist_settings(message):
     bot.send_message(message.chat.id, 'Настройки чёрного списка', reply_markup = keyboard_bl)
     
 @bot.callback_query_handler(func = lambda call: True)
-def show_blacklist(call):
+def blacklist_operations(call):
         if call.data == 'show_blacklist':
             if len(blacklist) == 0:
                 bot.send_message (call.message.chat.id, 'Черный список пустой')
             else:
                 bot.send_message (call.message.chat.id, 'Черный список: ' + str(blacklist))
+        elif call.data == 'edit_blacklist':
+            keyboard_edit = types.InlineKeyboardMarkup()
+            key_add_words = types.InlineKeyboardButton(text = 'Добавить', callback_data = 'edit_add')
+            keyboard_edit.add(key_add_words)
+            key_delete_words = types.InlineKeyboardButton (text = 'Удалить', callback_data = 'delete_word')
+            keyboard_edit.add(key_delete_words)
+            bot.send_message (call.message.chat.id, 'Редактирование чёрного списка', reply_markup = keyboard_edit)
 bot.polling(non_stop = True)
