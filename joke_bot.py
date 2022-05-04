@@ -10,7 +10,7 @@ blacklist = ['damn', 'do you think I care?', 'oh man, clearly not']
 joke_list = ['шутка-минутка', 'шутка-часик'] 
 
 def clear_blacklist_function(list):
-    blacklist = []
+    blacklist.clear
 
 @bot.message_handler(commands=['start'])
 def start_message (message):
@@ -47,24 +47,24 @@ def main_operator(call):
             bot.send_message (call.message.chat.id, 'Заходит как-то шаблонная шутка в бар, а бармен говорит В РАЗРАБОТКЕ')
         elif call.data == 'hedgehog':
             bot.send_message (call.message.chat.id, 'Жил-был ёжик, научился он дышать попой. Сел на пенёк и задохнулся') #Это единственная шутка которую я могу сходу рассказать.
-#Я где-то сломала эту функцию и не могу понять где. Ко мне закрадывается подозрение что это плохой интернет
-def blacklist_operations(call):
-    if call.data == 'show_blacklist':
-        if len(blacklist) == 0:
-            bot.send_message (call.message.chat.id, 'Черный список пустой')
-        else:
-            bot.send_message (call.message.chat.id, 'Черный список: ' + str(blacklist))
-    elif call.data == 'edit_blacklist':
-            keyboard_edit = types.InlineKeyboardMarkup()
-            key_add_words = types.InlineKeyboardButton(text = 'Добавить', callback_data = 'edit_add')
-            keyboard_edit.add(key_add_words)
-            key_delete_words = types.InlineKeyboardButton (text = 'Удалить', callback_data = 'delete_word')
-            keyboard_edit.add(key_delete_words)
-            key_clear_words = types.InlineKeyboardButton (text = 'Очистить чёрный список', callback_data = 'clear_blacklist')
-            keyboard_edit.add(key_clear_words)
-            bot.send_message (call.message.chat.id, 'Редактирование чёрного списка', reply_markup = keyboard_edit)
-    elif call.data == 'clear_blacklist':
-       clear_blacklist_function
-       bot.send_message (call.message.chat.id, 'Черный список очищен' + str(blacklist))
+#Дальше блок чёрного списка, раньше был отдельной функцией. 
+
+        elif call.data == 'show_blacklist':
+            if len(blacklist) == 0:
+                bot.send_message (call.message.chat.id, 'Черный список пустой')
+            else:
+                bot.send_message (call.message.chat.id, 'Черный список: ' + ', '.join(blacklist))
+        elif call.data == 'edit_blacklist':
+                keyboard_edit = types.InlineKeyboardMarkup()
+                key_add_words = types.InlineKeyboardButton(text = 'Добавить', callback_data = 'edit_add')
+                keyboard_edit.add(key_add_words)
+                key_delete_words = types.InlineKeyboardButton (text = 'Удалить', callback_data = 'delete_word')
+                keyboard_edit.add(key_delete_words)
+                key_clear_words = types.InlineKeyboardButton (text = 'Очистить чёрный список', callback_data = 'clear_blacklist')
+                keyboard_edit.add(key_clear_words)
+                bot.send_message (call.message.chat.id, 'Редактирование чёрного списка', reply_markup = keyboard_edit)
+        elif call.data == 'clear_blacklist':
+            clear_blacklist_function(blacklist)#не работает
+            bot.send_message (call.message.chat.id, 'Черный список очищен В РАЗРАБОТКЕ' + str(blacklist))
 
 bot.polling(non_stop = True)
