@@ -44,7 +44,6 @@ def update_user_blaklist(user, new_blacklist):
 
     with open('blacklist.json', 'w+') as file:
         data[user] += new_blacklist
-        print(data)
         file.write(json.dumps(data))
 
 def clear_user_blacklist(user):
@@ -54,5 +53,4 @@ def clear_user_blacklist(user):
 
     with open('blacklist.json', 'w+') as file:
         data[user] = []
-        print(data)
         file.write(json.dumps(data))
